@@ -15,7 +15,16 @@ class imageDownloader:
         self.save_path = save_path
         
         self.initPath()
-        
+    
+    def set_max_try(self, value):
+        self.max_try = value
+
+    def set_timeout(self, value):
+        self.timeout = value
+
+    def set_save_path(self, value):
+        self.save_path = value
+
     def initPath(self):
         if not os.path.exists(self.save_path):
             os.makedirs(self.save_path)

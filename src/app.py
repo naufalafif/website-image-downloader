@@ -3,26 +3,43 @@
 
 from downloader import imageDownloader
 import argparse
+import sys
+sys.tracebacklimit=0
 
-# REQUESTS_TIMEOUT = 2
-# MAX_TRY = 5
-# WEB_URL = 'https://www.google.com/'
-# SAVE_PATH = '/home/naufalafif/Temp/download'
+parser = None
+class Cli:
+  def __init__(self):
+    self.arguments = None
+    self.init_parser()
+    self.execute()
+  
+  def  init_parser(self):
+    parser = argparse.ArgumentParser(description='Simple App that download all images from url')
+    parser.add_argument('-m', type=int,
+                        help='Maximun number of tries to download url')
+    parser.add_argument('-t', type=int,
+                        help='Request timeout time in second')
+    parser.add_argument('-s', type=str,
+                        help='Path to save downloaded images')
+    parser.add_argument('url',
+                        help='Required site url')
+    self.arguments = parser.parse_args()
 
-# app = imageDownloader(url='https://www.google.com')
-# app.download()
+  def execute(self):
+    url = self.arguments.url
+    max_try = self.arguments.m
+    timeout = self.arguments.t
+    save_path = self.arguments.s
 
-parser = argparse.ArgumentParser(description='Simple App that download images')
+    app = imageDownloader(url)
 
-parser.add_argument('-m', type=int,
-                    help='Optional maximun number of tries to download url')
+    if max_try:
+      app.set_max_try(max_try)
+    if timeout:
+      app.set_timeout(timeout)
+    if save_path:
+      app.set_save_path(save_path)
 
-parser.add_argument('-t', type=int,
-                    help='Optional request timeout time')
-
-parser.add_argument('-s', type=int,
-                    help='Optional path to save downloaded images')
-
-args = parser.parse_args()
-
-print(args)
+    app.download()
+    
+cli_app = Cli()
