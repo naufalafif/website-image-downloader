@@ -81,6 +81,7 @@ celerybeat-schedule
 # SageMath parsed files
 *.sage.py
 
+
 # Environments
 .env
 .venv
@@ -89,6 +90,20 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+
+# Folder
+jupyter
+
+# Other Types
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.tiff
+*.raw
+*.swf
+*.svg
+
 
 # Spyder project settings
 .spyderproject
