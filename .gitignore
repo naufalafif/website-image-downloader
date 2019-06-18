@@ -92,7 +92,7 @@ env.bak/
 venv.bak/
 
 # Folder
-jupyter
+jupyter/
 
 # Other Types
 *.png
