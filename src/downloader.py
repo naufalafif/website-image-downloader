@@ -3,29 +3,32 @@ from lxml import html
 import validators
 import urllib.request
 import os
+from concurrent import futures
 
 
 def fillUrlDomain(parent_url, image_url):
     return "{}{}".format(parent_url, image_url)
 
-
 class imageDownloader:
-    def __init__(self, url=None, max_try=3, timeout=5, save_path=os.getcwd()):
+    def __init__(self, url):
+        if url is None:
+            raise ValueError("Url Required")
         self.url = url
-        self.max_try = max_try
-        self.timeout = timeout
-        self.save_path = save_path
-
-        self.initPath()
+        self.max_try = None
+        self.timeout = None
+        self.save_path = None
 
     def set_max_try(self, value):
         self.max_try = value
+        return self
 
     def set_timeout(self, value):
         self.timeout = value
+        return self
 
     def set_save_path(self, value):
         self.save_path = value
+        return self
 
     def initPath(self):
         if not os.path.exists(self.save_path):
@@ -45,7 +48,17 @@ class imageDownloader:
         if self.save_path:
             title = os.path.join(self.save_path, title)
 
-        urllib.request.urlretrieve(url_to_download, title)
+        download_status = False
+        try:
+            urllib.request.urlretrieve(url_to_download, title)
+            download_status = True
+        finally:
+            return {
+                "status": download_status,
+                "image_url": image_url
+            }
+
+
 
     def extractImageUrls(self, request_try=1):
         if not validators.url(self.url):
@@ -57,7 +70,7 @@ class imageDownloader:
             response = requests.get(self.url, timeout=self.timeout)
         except requests.exceptions.RequestException as e:
             print("Url Request Failed", e)
-            extractImageUrls(request_try + 1)
+            self.extractImageUrls(request_try + 1)
 
         if response.status_code != 200:
             raise Exception("Url Requests Failed, Invalid Code ", self.url)
@@ -68,10 +81,21 @@ class imageDownloader:
         return image_list
 
     def download(self):
+        self.initPath()
         image_url_list = self.extractImageUrls()
-        for image_url in image_url_list:
-            try:
-                self.downloadImageByUrl(image_url)
-                print("Download Success ", image_url)
-            except:
-                print("Download Failed ", image_url)
+
+        with futures.ThreadPoolExecutor() as executor:
+            results = executor.map(self.downloadImageByUrl, image_url_list)
+
+            for result in results:
+                if result["status"]:
+                    print(f"✔ download success : {result['image_url']}")
+                else:
+                    print(f"✖ download failed : {result['image_url']}")
+
+        # for image_url in image_url_list:
+        #     try:
+        #         self.downloadImageByUrl(image_url)
+        #         print("Download Success ", image_url)
+        #     except:
+        #         print("Download Failed ", image_url)
