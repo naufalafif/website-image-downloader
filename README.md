@@ -1,5 +1,5 @@
 # Website Image Downloader
-Simple App that download all images from url
+Simple App that download images from url
 
 
 ### Help
