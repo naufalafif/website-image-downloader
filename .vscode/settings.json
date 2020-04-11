@@ -1,3 +1,5 @@
 {
-  "python.pythonPath": "fenv/bin/python3.6"
+  "python.pythonPath": "/home/naufal/.local/share/virtualenvs/OS_Image_Downloader-WF5ySxVd/bin/python",
+  "python.linting.pylintEnabled": true,
+  "python.linting.enabled": true
 }

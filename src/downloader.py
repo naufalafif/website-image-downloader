@@ -9,6 +9,7 @@ from concurrent import futures
 def fillUrlDomain(parent_url, image_url):
     return "{}{}".format(parent_url, image_url)
 
+
 class imageDownloader:
     def __init__(self, url):
         if url is None:
@@ -57,8 +58,6 @@ class imageDownloader:
                 "status": download_status,
                 "image_url": image_url
             }
-
-
 
     def extractImageUrls(self, request_try=1):
         if not validators.url(self.url):

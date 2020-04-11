@@ -118,4 +118,4 @@ jupyter/
 # mypy
 .mypy_cache/
 fenv
-.vscode
+.vscode/
