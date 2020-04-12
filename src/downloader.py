@@ -15,6 +15,9 @@ class ImageDownloader:
         self.timeout = None
         self.save_path = None
 
+    def __repr__(self):
+        return "Image Downloader Class"
+
     def set_max_try(self, value):
         self.max_try = value
         return self
@@ -54,7 +57,8 @@ class ImageDownloader:
         finally:
             return {
                 "status": download_status,
-                "image_url": image_url
+                "image_url": image_url,
+                "filename": title
             }
 
     def extract_image_urls(self, request_try=1):
