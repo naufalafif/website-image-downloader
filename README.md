@@ -1,3 +1,5 @@
+[![CircleCI](https://circleci.com/gh/naufalafif/website-image-downloader.svg?style=svg)](https://circleci.com/gh/naufalafif/website-image-downloader)
+
 # Website Image Downloader
 Simple App that download images from url
 
