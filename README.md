@@ -4,7 +4,7 @@ Simple App that download images from url
 
 ### Help
 ```
-$ ./app.py -h
+$ ./run.py -h
 
 usage: app.py [-h] [-m M] [-t T] [-s S] url
 
@@ -22,7 +22,7 @@ optional arguments:
 
 ### Example
 ```
-$ ./app.py https://www.google.com
+$ ./run.py https://www.google.com
 Download Success  /images/branding/googlelogo/1x/googlelogo_white_background_color_272x92dp.png
 Download Success  /textinputassistant/tia.png
 ```
