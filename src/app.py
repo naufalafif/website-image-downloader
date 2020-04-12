@@ -35,7 +35,6 @@ class Cli:
         max_try = self.arguments.m if self.arguments.m else RequestMaxRetries
         timeout = self.arguments.t if self.arguments.t else RequestTimeout
         save_path = self.arguments.s if self.arguments.s else SaveDirectory
-
         app = ImageDownloader(url)
         app.set_max_try(max_try).set_timeout(timeout).set_save_path(save_path)
 

@@ -120,3 +120,4 @@ jupyter/
 fenv
 .vscode/
 download
+coverage.xml

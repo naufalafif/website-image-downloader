@@ -9,8 +9,8 @@ import os
 
 IMAGE_URl = "https://images.unsplash.com/photo-1542091607-f2c384a6af13?ixlib=rb-1.2.1&auto=format&fit=crop&w=1352&q=80"
 
-class TestDownloader(unittest.TestCase):
 
+class TestDownloader(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         url = "https://google.com"
@@ -51,12 +51,12 @@ class TestDownloader(unittest.TestCase):
         finally:
             if download_result_file is not None:
                 os.remove(download_result_file)
-    
+
     def test_normalize_url(self):
-        image_path = '/assets/img'
+        image_path = "/assets/img"
         normalized_url = self.downloader.normalize_url(image_path)
-        self.assertEqual(normalized_url, f'{self.url}{image_path}')
-    
+        self.assertEqual(normalized_url, f"{self.url}{image_path}")
+
     def test_download(self):
         try:
             self.downloader.set_save_path(self.save_path).download()
@@ -64,8 +64,9 @@ class TestDownloader(unittest.TestCase):
             self.fail("Fail To Download Images")
         finally:
             if os.path.exists(self.save_path):
-                self.assertGreater(len(os.listdir(self.save_path)),0)
-                shutil.rmtree('test')
+                self.assertGreater(len(os.listdir(self.save_path)), 0)
+                shutil.rmtree("test")
+
 
 if __name__ == "__main__":
     unittest.main()
