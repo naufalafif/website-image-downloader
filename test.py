@@ -1,16 +1,22 @@
+#!/usr/bin/env python
+# coding: utf-8
 """Test File"""
 
 import unittest
 from src.downloader import ImageDownloader
+import shutil
 import os
 
 IMAGE_URl = "https://images.unsplash.com/photo-1542091607-f2c384a6af13?ixlib=rb-1.2.1&auto=format&fit=crop&w=1352&q=80"
 
-
 class TestDownloader(unittest.TestCase):
-    url = "https://google.com"
-    downloader = ImageDownloader(url)
-    max_try, timeout, save_path = 3, 10, "test/download"
+
+    @classmethod
+    def setUpClass(cls):
+        url = "https://google.com"
+        cls.url = url
+        cls.downloader = ImageDownloader(url)
+        cls.max_try, cls.timeout, cls.save_path = 3, 10, "test/download"
 
     def test_downloader_object(self):
         self.assertTrue("downloader" in repr(self.downloader).lower())
@@ -32,7 +38,7 @@ class TestDownloader(unittest.TestCase):
         except:
             self.fail("Fail to initialize save directory")
         finally:
-            os.removedirs(self.save_path)
+            shutil.rmtree(self.save_path)
 
     def test_success_get_image_urls(self):
         download_result_file = None
@@ -45,7 +51,21 @@ class TestDownloader(unittest.TestCase):
         finally:
             if download_result_file is not None:
                 os.remove(download_result_file)
-
+    
+    def test_normalize_url(self):
+        image_path = '/assets/img'
+        normalized_url = self.downloader.normalize_url(image_path)
+        self.assertEqual(normalized_url, f'{self.url}{image_path}')
+    
+    def test_download(self):
+        try:
+            self.downloader.set_save_path(self.save_path).download()
+        except:
+            self.fail("Fail To Download Images")
+        finally:
+            if os.path.exists(self.save_path):
+                self.assertGreater(len(os.listdir(self.save_path)),0)
+                shutil.rmtree('test')
 
 if __name__ == "__main__":
     unittest.main()
