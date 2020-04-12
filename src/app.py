@@ -1,7 +1,6 @@
-from src.downloader import imageDownloader
+from src.downloader import ImageDownloader
 from config import RequestTimeout, RequestMaxRetries, SaveDirectory
 import argparse
-
 
 class Cli:
     def __init__(self):
@@ -33,7 +32,7 @@ class Cli:
         timeout = self.arguments.t if self.arguments.t else RequestTimeout
         save_path = self.arguments.s if self.arguments.s else SaveDirectory
 
-        app = imageDownloader(url)
+        app = ImageDownloader(url)
         app .set_max_try(max_try)\
             .set_timeout(timeout)\
             .set_save_path(save_path)
