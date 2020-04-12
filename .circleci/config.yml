@@ -14,7 +14,10 @@ jobs:
             pip install -r requirements.txt
       - run:
           command: python ./test.py
-          name: Test
+          name: Run Normal Test
+      - run:
+          name: Run Coverage Test
+          command: coverage run ./test.py && codecov -t c672a594-7609-4727-8b71-ab391150d167
 
 workflows:
   main:
