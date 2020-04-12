@@ -4,6 +4,7 @@ import validators
 import urllib.request
 import os
 from concurrent import futures
+from itertools import repeat
 
 class ImageDownloader:
     def __init__(self, url):
@@ -36,16 +37,14 @@ class ImageDownloader:
         return image_url
         
     @staticmethod
-    def download_image_by_url(image_url, title=None, path=os.getcwd()):
+    def download_image_by_url(image_url, path=os.getcwd()):
         if not validators.url(image_url):
             raise ValueError("Please use valid url")
 
-        if title is None:
-            url_path = urllib.request.urlparse(image_url).path
-            ext = os.path.splitext(url_path)[1]
-            hashed_url = str(abs(hash(image_url)))
-            title = "{}{}".format(hashed_url, ext)
-
+        url_path = urllib.request.urlparse(image_url).path
+        ext = os.path.splitext(url_path)[1]
+        hashed_url = str(abs(hash(image_url)))
+        title = "{}{}".format(hashed_url, ext)
         title = os.path.join(path, title)
 
         download_status = False
@@ -84,7 +83,7 @@ class ImageDownloader:
         image_url_list = [self.normalize_url(url) for url in image_url_list]
 
         with futures.ThreadPoolExecutor() as executor:
-            results = executor.map(ImageDownloader.download_image_by_url, image_url_list)
+            results = executor.map(ImageDownloader.download_image_by_url, image_url_list, [self.save_path] * len(image_url_list))
 
             for result in results:
                 if result["status"]:
