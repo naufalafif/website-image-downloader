@@ -2,6 +2,7 @@ from src.downloader import ImageDownloader
 from config import RequestTimeout, RequestMaxRetries, SaveDirectory
 import argparse
 
+
 class Cli:
     def __init__(self):
         self.arguments = None
@@ -14,15 +15,18 @@ class Cli:
         parser.add_argument(
             "-m",
             type=int,
-            help="Maximun number of tries to download url. default {}".format(RequestMaxRetries))
+            help="Maximun number of tries to download url. default {}".format(
+                RequestMaxRetries
+            ),
+        )
         parser.add_argument(
             "-t",
             type=int,
-            help="Request timeout time in second. default {} seconds".format(RequestTimeout))
-        parser.add_argument(
-            "-s",
-            type=str,
-            help="Path to save downloaded images")
+            help="Request timeout time in second. default {} seconds".format(
+                RequestTimeout
+            ),
+        )
+        parser.add_argument("-s", type=str, help="Path to save downloaded images")
         parser.add_argument("url", help="Required site url")
         self.arguments = parser.parse_args()
 
@@ -33,8 +37,6 @@ class Cli:
         save_path = self.arguments.s if self.arguments.s else SaveDirectory
 
         app = ImageDownloader(url)
-        app .set_max_try(max_try)\
-            .set_timeout(timeout)\
-            .set_save_path(save_path)
+        app.set_max_try(max_try).set_timeout(timeout).set_save_path(save_path)
 
         app.download()

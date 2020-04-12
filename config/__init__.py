@@ -1,7 +1,8 @@
 import configparser
 import os
+
 config = configparser.ConfigParser()
-config.read('config/config.ini')
+config.read("config/config.ini")
 
 RequestTimeout = int(config["DEFAULT"]["RequestTimeout"])
 RequestMaxRetries = int(config["DEFAULT"]["RequestMaxRetries"])

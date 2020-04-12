@@ -6,6 +6,7 @@ import os
 from concurrent import futures
 from itertools import repeat
 
+
 class ImageDownloader:
     def __init__(self, url):
         if url is None:
@@ -38,7 +39,7 @@ class ImageDownloader:
         if not validators.url(image_url):
             return "{}{}".format(self.url, image_url)
         return image_url
-        
+
     @staticmethod
     def download_image_by_url(image_url, path=os.getcwd()):
         if not validators.url(image_url):
@@ -58,7 +59,7 @@ class ImageDownloader:
             return {
                 "status": download_status,
                 "image_url": image_url,
-                "filename": title
+                "filename": title,
             }
 
     def extract_image_urls(self, request_try=1):
@@ -87,7 +88,11 @@ class ImageDownloader:
         image_url_list = [self.normalize_url(url) for url in image_url_list]
 
         with futures.ThreadPoolExecutor() as executor:
-            results = executor.map(ImageDownloader.download_image_by_url, image_url_list, [self.save_path] * len(image_url_list))
+            results = executor.map(
+                ImageDownloader.download_image_by_url,
+                image_url_list,
+                [self.save_path] * len(image_url_list),
+            )
 
             for result in results:
                 if result["status"]:
